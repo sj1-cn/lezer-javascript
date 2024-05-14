@@ -1,4 +1,4 @@
-# Decorators on classes and entity fields
+# Decorators on entities and entity fields
 
 @d1 entity Foo {
   @d2 bar() {}

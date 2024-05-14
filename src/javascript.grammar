@@ -112,6 +112,8 @@ ForOfSpec { forXSpec<ckw<"of">> }
 declaration {
   FunctionDeclaration |
   EntityDeclaration |
+  TransactionDeclaration |
+  RelationshipDeclaration |
   VariableDeclaration |
   TypeAliasDeclaration |
   InterfaceDeclaration |
@@ -124,8 +126,23 @@ FunctionDeclaration {
   async? !statement kw<"function"> Star? VariableDefinition? functionSignature (Block | semi)
 }
 
+
 EntityDeclaration {
   !statement Decorator* tskw<"abstract">? kw<"entity"> VariableDefinition TypeParamList?
+  (kw<"extends"> ((VariableName | MemberExpression) !typeargs TypeArgList | expression))?
+  (tskw<"implements"> commaSep1<type>)?
+  EntityBody
+}
+
+TransactionDeclaration {
+  !statement Decorator* tskw<"abstract">? kw<"transaction"> VariableDefinition TypeParamList?
+  (kw<"extends"> ((VariableName | MemberExpression) !typeargs TypeArgList | expression))?
+  (tskw<"implements"> commaSep1<type>)?
+  EntityBody
+}
+
+RelationshipDeclaration {
+  !statement Decorator* tskw<"abstract">? kw<"relationship"> VariableDefinition TypeParamList?
   (kw<"extends"> ((VariableName | MemberExpression) !typeargs TypeArgList | expression))?
   (tskw<"implements"> commaSep1<type>)?
   EntityBody
