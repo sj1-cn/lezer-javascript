@@ -43,7 +43,7 @@
 
 @top SingleExpression { expression }
 
-@top SingleEntityItem { classItem }
+@top SingleEntityItem { entityItem }
 
 statement[@isGroup=Statement] {
   ExportDeclaration |
@@ -131,9 +131,9 @@ EntityDeclaration {
   EntityBody
 }
 
-classItem { MethodDeclaration | PropertyDeclaration | StaticBlock | ";" }
+entityItem { MethodDeclaration | PropertyDeclaration | StaticBlock | ";" }
 
-EntityBody { "{" classItem* "}" }
+EntityBody { "{" entityItem* "}" }
 
 privacy {
   @extend[@name=Privacy,@dialect=ts]<word, "public" | "private" | "protected">
