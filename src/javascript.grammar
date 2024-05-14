@@ -147,15 +147,16 @@ TransactionDeclaration {
 RelationshipDeclaration {
   !statement Decorator* tskw<"abstract">? kw<"relationship"> VariableDefinition
   (kw<"extends"> ((VariableName | MemberExpression) !typeargs TypeArgList | expression))?
+  (tskw<"implements"> commaSep1<type>)?
   EntityBody
 }
 
 TypeDeclaration {
-  kw<"type"> TypeDefinition kw<"extends"> type semi
+  kw<"public">? kw<"type"> TypeDefinition kw<"extends"> type semi
 }
 
 DictDeclaration {
-  kw<"dict"> TypeDefinition DictBody { "{" commaSep<PropertyName ("=" expressionNoComma)?> "}" }
+  kw<"public">? kw<"dict"> TypeDefinition DictBody { "{" commaSep<PropertyName ("=" expressionNoComma)?> "}" }
 }
 
 
@@ -164,11 +165,11 @@ entityItem { MethodDeclaration | PropertyDeclaration | StaticBlock | ";" }
 EntityBody { "{" entityItem* "}" }
 
 privacy {
-  @extend[@name=Privacy,@dialect=ts]<word, "public" | "private" | "protected">
+  @extend[@name=Privacy]<word, "private" | "protected">
 }
 
 privacyArg {
-  @extend[@name=Privacy,@dialect=ts]<identifier, "public" | "private" | "protected">
+  @extend[@name=Privacy]<identifier, "private" | "protected">
 }
 
 propModifier {
