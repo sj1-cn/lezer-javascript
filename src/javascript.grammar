@@ -74,8 +74,8 @@ statement[@isGroup=Statement] {
 ExportDeclaration {
   kw<"export"> Star (ckw<"as"> (VariableName | String))? ckw<"from"> String semi |
   kw<"export"> kw<"default"> (FunctionDeclaration | EntityDeclaration | expression semi) |
-  kw<"export"> tskw<"ttype">? declaration |
-  kw<"export"> tskw<"ttype">? ExportGroup (ckw<"from"> String)? semi |
+  kw<"export"> declaration |
+  kw<"export"> ExportGroup (ckw<"from"> String)? semi |
   kw<"export"> "=" expression semi
 }
 
@@ -84,13 +84,13 @@ ExportGroup {
 }
 
 ImportDeclaration {
-  kw<"import"> tskw<"ttype">? (Star ckw<"as"> VariableDefinition | commaSep<VariableDefinition | ImportGroup>)
+  kw<"import"> (Star ckw<"as"> VariableDefinition | commaSep<VariableDefinition | ImportGroup>)
     ckw<"from"> String semi |
   kw<"import"> String semi
 }
 
 ImportGroup {
-  "{" commaSep<tskw<"ttype">? (VariableDefinition | (VariableName | String | kw<"default">) ckw<"as"> VariableDefinition)> "}"
+  "{" commaSep<(VariableDefinition | (VariableName | String | kw<"default">) ckw<"as"> VariableDefinition)> "}"
 }
 
 ForSpec {
@@ -115,7 +115,6 @@ declaration {
   TransactionDeclaration |
   RelationshipDeclaration |
   VariableDeclaration |
-  TypeAliasDeclaration |
   InterfaceDeclaration |
   EnumDeclaration |
   NamespaceDeclaration |
@@ -202,10 +201,6 @@ VariableDeclaration {
   variableDeclarationKeyword commaSep1<patternAssignTyped> semi
 }
 
-TypeAliasDeclaration {
-  tskw<"ttype"> TypeDefinition TypeParamList? "=" type semi
-}
-
 InterfaceDeclaration {
   tskw<"interface"> TypeDefinition TypeParamList? (kw<"extends"> type)? ObjectType
 }
@@ -221,7 +216,6 @@ NamespaceDeclaration {
 AmbientDeclaration {
   tskw<"declare"> (
     VariableDeclaration |
-    TypeAliasDeclaration |
     EnumDeclaration |
     InterfaceDeclaration |
     NamespaceDeclaration |
