@@ -1,7 +1,7 @@
 {
-  "name": "@lezer/javascript",
+  "name": "@sj1/lezer-javascript",
   "version": "1.4.16",
-  "description": "lezer-based JavaScript grammar",
+  "description": "lezer-based nsl grammar",
   "main": "dist/index.cjs",
   "type": "module",
   "exports": {
@@ -10,7 +10,7 @@
   },
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "author": "Marijn Haverbeke <marijn@haverbeke.berlin>",
+  "author": "wangshilan <wangshilian@sj1.cn>",
   "license": "MIT",
   "devDependencies": {
     "@lezer/generator": "^1.0.0",
@@ -25,7 +25,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lezer-parser/javascript.git"
+    "url": "https://github.com/sj1-cn/lezer-nsl.git"
   },
   "scripts": {
     "build": "lezer-generator src/javascript.grammar -o src/parser && rollup -c",
