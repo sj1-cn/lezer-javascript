@@ -1,4 +1,4 @@
-@dialects { jsx, ts }
+@dialects { ts }
 
 @precedence {
   typeargs,
@@ -74,8 +74,8 @@ statement[@isGroup=Statement] {
 ExportDeclaration {
   kw<"export"> Star (ckw<"as"> (VariableName | String))? ckw<"from"> String semi |
   kw<"export"> kw<"default"> (FunctionDeclaration | EntityDeclaration | expression semi) |
-  kw<"export"> tskw<"type">? declaration |
-  kw<"export"> tskw<"type">? ExportGroup (ckw<"from"> String)? semi |
+  kw<"export"> tskw<"ttype">? declaration |
+  kw<"export"> tskw<"ttype">? ExportGroup (ckw<"from"> String)? semi |
   kw<"export"> "=" expression semi
 }
 
@@ -84,13 +84,13 @@ ExportGroup {
 }
 
 ImportDeclaration {
-  kw<"import"> tskw<"type">? (Star ckw<"as"> VariableDefinition | commaSep<VariableDefinition | ImportGroup>)
+  kw<"import"> tskw<"ttype">? (Star ckw<"as"> VariableDefinition | commaSep<VariableDefinition | ImportGroup>)
     ckw<"from"> String semi |
   kw<"import"> String semi
 }
 
 ImportGroup {
-  "{" commaSep<tskw<"type">? (VariableDefinition | (VariableName | String | kw<"default">) ckw<"as"> VariableDefinition)> "}"
+  "{" commaSep<tskw<"ttype">? (VariableDefinition | (VariableName | String | kw<"default">) ckw<"as"> VariableDefinition)> "}"
 }
 
 ForSpec {
@@ -203,7 +203,7 @@ VariableDeclaration {
 }
 
 TypeAliasDeclaration {
-  tskw<"type"> TypeDefinition TypeParamList? "=" type semi
+  tskw<"ttype"> TypeDefinition TypeParamList? "=" type semi
 }
 
 InterfaceDeclaration {
@@ -322,7 +322,6 @@ expressionNoComma {
   TaggedTemplateExpression { expressionNoComma !taggedTemplate TemplateString } |
   DynamicImport { kw<"import"> "(" expressionNoComma ")" } |
   ImportMeta { kw<"import"> "." PropertyName } |
-  JSXElement |
   PrefixCast { tsAngleOpen type ~tsAngle ">" expressionNoComma } |
   ArrowFunction[@dynamicPrecedence=1] {
     TypeParamList { tsAngleOpen commaSep<typeParam> ">" } ParamList TypeAnnotation? "=>" (Block | expressionNoComma)
@@ -519,43 +518,7 @@ templateExpr[@name=Interpolation,isolate] { InterpolationStart expression Interp
 templateType[@name=Interpolation,isolate] { InterpolationStart type InterpolationEnd }
 
 @skip {} {
-  JSXElement {
-    JSXSelfClosingTag |
-    (JSXOpenTag | JSXFragmentTag) (JSXText | JSXElement | JSXEscape)* JSXCloseTag
-  }
 }
-
-JSXSelfClosingTag { JSXStartTag jsxElementName jsxAttribute* JSXSelfCloseEndTag }
-
-JSXOpenTag { JSXStartTag jsxElementName jsxAttribute* JSXEndTag }
-
-JSXFragmentTag { JSXStartTag JSXEndTag }
-
-JSXCloseTag { JSXStartCloseTag jsxElementName? JSXEndTag }
-
-jsxElementName {
-  JSXIdentifier |
-  JSXBuiltin { JSXLowerIdentifier } |
-  JSXNamespacedName |
-  JSXMemberExpression
-}
-
-JSXMemberExpression { (JSXMemberExpression | JSXIdentifier | JSXLowerIdentifier) "." (JSXIdentifier | JSXLowerIdentifier) }
-
-JSXNamespacedName { (JSXIdentifier | JSXNamespacedName | JSXLowerIdentifier) ":" (JSXIdentifier | JSXLowerIdentifier) }
-
-jsxAttribute {
-  JSXSpreadAttribute { "{" "..." expression "}" } |
-  JSXAttribute { (JSXIdentifier | JSXNamespacedName | JSXLowerIdentifier) ("=" jsxAttributeValue)? }
-}
-
-jsxAttributeValue {
-  JSXAttributeValue |
-  JSXEscape { "{" expression "}" } |
-  JSXElement
-}
-
-JSXEscape { "{" "..."? expression "}" }
 
 commaSep<content> {
   "" | content ("," content?)*
@@ -627,8 +590,6 @@ intersectionOp[@name=LogicOp] { "&" }
  questionDot[@name="?."]
 }
 
-@external tokens jsx from "./tokens" { JSXStartTag }
-
 @local tokens {
   InterpolationStart[closedBy=InterpolationEnd] { "${" }
   templateEnd { "`" }
@@ -666,7 +627,7 @@ intersectionOp[@name=LogicOp] { "&" }
 
   @precedence { spaces, newline, identifier }
 
-  @precedence { spaces, newline, JSXIdentifier, JSXLowerIdentifier }
+  @precedence { spaces, newline }
 
   @precedence { spaces, newline, word }
 
@@ -714,19 +675,6 @@ intersectionOp[@name=LogicOp] { "&" }
   "(" ")" "[" "]" "{" "}" "<" ">"
 
   "." "," ";" ":" "@"
-
-  JSXIdentifier { $[A-Z_$\u{a1}-\u{10ffff}] (identifierChar | @digit | "-")* }
-  JSXLowerIdentifier[@name=JSXIdentifier] { $[a-z] (identifierChar | @digit | "-")* }
-
-  JSXAttributeValue { '"' !["]* '"' | "'" ![']* "'" }
-
-  JSXStartCloseTag { "</" }
-
-  JSXEndTag { ">" }
-
-  JSXSelfCloseEndTag { "/>" }
-
-  JSXText { ![<{]+ }
 
   tsAngleOpen[@dialect=ts] { "<" }
 }

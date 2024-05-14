@@ -54,30 +54,3 @@ function identifierChar(ch, start) {
   return ch >= 65 && ch <= 90 || ch >= 97 && ch <= 122 || ch == 95 || ch >= 192 ||
     !start && ch >= 48 && ch <= 57
 }
-
-export const jsx = new ExternalTokenizer((input, stack) => {
-  if (input.next != lt || !stack.dialectEnabled(Dialect_jsx)) return
-  input.advance()
-  if (input.next == slash) return
-  // Scan for an identifier followed by a comma or 'extends', don't
-  // treat this as a start tag if present.
-  let back = 0
-  while (space.indexOf(input.next) > -1) { input.advance(); back++ }
-  if (identifierChar(input.next, true)) {
-    input.advance()
-    back++
-    while (identifierChar(input.next, false)) { input.advance(); back++ }
-    while (space.indexOf(input.next) > -1) { input.advance(); back++ }
-    if (input.next == comma) return
-    for (let i = 0;; i++) {
-      if (i == 7) {
-        if (!identifierChar(input.next, true)) return
-        break
-      }
-      if (input.next != "extends".charCodeAt(i)) break
-      input.advance()
-      back++
-    }
-  }
-  input.acceptToken(JSXStartTag, -back)
-})
