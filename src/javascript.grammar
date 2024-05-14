@@ -116,7 +116,7 @@ declaration {
   RelationshipDeclaration |
   VariableDeclaration |
   InterfaceDeclaration |
-  EnumDeclaration |
+  DictDeclaration |
   NamespaceDeclaration |
   AmbientDeclaration
 }
@@ -205,8 +205,8 @@ InterfaceDeclaration {
   tskw<"interface"> TypeDefinition TypeParamList? (kw<"extends"> type)? ObjectType
 }
 
-EnumDeclaration {
-  kw<"const">? tskw<"enum"> TypeDefinition EnumBody { "{" commaSep<PropertyName ("=" expressionNoComma)?> "}" }
+DictDeclaration {
+  kw<"const">? tskw<"dict"> TypeDefinition DictBody { "{" commaSep<PropertyName ("=" expressionNoComma)?> "}" }
 }
 
 NamespaceDeclaration {
@@ -216,7 +216,7 @@ NamespaceDeclaration {
 AmbientDeclaration {
   tskw<"declare"> (
     VariableDeclaration |
-    EnumDeclaration |
+    DictDeclaration |
     InterfaceDeclaration |
     NamespaceDeclaration |
     GlobalDeclaration { tskw<"global"> Block } |

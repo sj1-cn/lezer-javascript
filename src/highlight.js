@@ -48,14 +48,7 @@ export const jsHighlight = styleTags({
 
   TypeName: t.typeName,
   TypeDefinition: t.definition(t.typeName),
-  "type enum interface implements namespace module declare": t.definitionKeyword,
+  "type dict interface implements namespace module declare": t.definitionKeyword,
   "abstract global Privacy readonly override": t.modifier,
-  "is keyof unique infer": t.operatorKeyword,
-
-  JSXAttributeValue: t.attributeValue,
-  JSXText: t.content,
-  "JSXStartTag JSXStartCloseTag JSXSelfCloseEndTag JSXEndTag": t.angleBracket,
-  "JSXIdentifier JSXNameSpacedName": t.tagName,
-  "JSXAttribute/JSXIdentifier JSXAttribute/JSXNameSpacedName": t.attributeName,
-  "JSXBuiltin/JSXIdentifier": t.standard(t.tagName)
+  "is keyof unique infer": t.operatorKeyword
 })
