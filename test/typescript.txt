@@ -135,7 +135,7 @@ Script(ExpressionStatement(JSXElement(
 
 # Class definition {"dialect": "ts"}
 
-class Foo<T> extends Bar<T> implements Stuff {
+entity Foo<T> extends Bar<T> implements Stuff {
   a: number
   public readonly b: string = "two"
   constructor(readonly x: boolean, public y: number, z: string) {}
@@ -145,7 +145,7 @@ class Foo<T> extends Bar<T> implements Stuff {
 ==>
 
 Script(ClassDeclaration(
-  class, VariableDefinition, TypeParamList(TypeDefinition),
+  entity, VariableDefinition, TypeParamList(TypeDefinition),
   extends, VariableName, TypeArgList(TypeName),
   implements TypeName,
   ClassBody(
@@ -181,11 +181,11 @@ Script(TypeAliasDeclaration(type, TypeDefinition, TypeParamList(TypeDefinition),
 
 # Extending complex types {"dialect": "ts"}
 
-class Foo extends A.B<Param> {}
+entity Foo extends A.B<Param> {}
 
 ==>
 
-Script(ClassDeclaration(class, VariableDefinition,
+Script(ClassDeclaration(entity, VariableDefinition,
   extends, MemberExpression(VariableName, PropertyName), TypeArgList(TypeName),
   ClassBody))
 
@@ -234,7 +234,7 @@ Script(VariableDeclaration(let,VariableDefinition,Equals,BinaryExpression(Number
 
 # Override modifier on properties {"dialect": "ts"}
 
-class A {
+entity A {
   override accessor a;
   static override b = 1;
   override c = 2;
@@ -242,18 +242,18 @@ class A {
 
 ==>
 
-Script(ClassDeclaration(class,VariableDefinition,ClassBody(
+Script(ClassDeclaration(entity,VariableDefinition,ClassBody(
   PropertyDeclaration(override,accessor,PropertyDefinition),
   PropertyDeclaration(static,override,PropertyDefinition,Equals,Number),
   PropertyDeclaration(override,PropertyDefinition,Equals,Number))))
 
 # Class extending expression {"dialect": "ts"}
 
-class X extends class {} {}
+entity X extends entity {} {}
 
 ==>
 
-Script(ClassDeclaration(class,VariableDefinition,extends,ClassExpression(class,ClassBody),ClassBody))
+Script(ClassDeclaration(entity,VariableDefinition,extends,ClassExpression(entity,ClassBody),ClassBody))
 
 # Declare syntax {"dialect": "ts"}
 
@@ -264,13 +264,13 @@ declare namespace myLib {
 
 declare function greet(setting: GreetingSettings): void;
 
-declare class Greeter {
+declare entity Greeter {
   constructor(greeting: string);
   greeting: string;
   showGreeting(): void;
 }
 
-class X {
+entity X {
   declare foo();
   declare bar: number;
 }
@@ -284,11 +284,11 @@ Script(
     VariableDeclaration(let,VariableDefinition,TypeAnnotation(TypeName))))),
   AmbientDeclaration(declare,AmbientFunctionDeclaration(function,VariableDefinition,
     ParamList(VariableDefinition,TypeAnnotation(TypeName)),TypeAnnotation(VoidType(void)))),
-  AmbientDeclaration(declare,ClassDeclaration(class,VariableDefinition,ClassBody(
+  AmbientDeclaration(declare,ClassDeclaration(entity,VariableDefinition,ClassBody(
     MethodDeclaration(PropertyDefinition,ParamList(VariableDefinition,TypeAnnotation(TypeName))),
     PropertyDeclaration(PropertyDefinition,TypeAnnotation(TypeName)),
     MethodDeclaration(PropertyDefinition,ParamList,TypeAnnotation(VoidType(void)))))),
-  ClassDeclaration(class,VariableDefinition,ClassBody(
+  ClassDeclaration(entity,VariableDefinition,ClassBody(
     MethodDeclaration(declare,PropertyDefinition,ParamList),
     PropertyDeclaration(declare,PropertyDefinition,TypeAnnotation(TypeName)))))
 

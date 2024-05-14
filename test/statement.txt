@@ -26,7 +26,7 @@ Script(
 
 async function foo() {}
 
-class Foo { async bar() {} }
+entity Foo { async bar() {} }
 
 async (a) => { return foo; };
 
@@ -34,7 +34,7 @@ async (a) => { return foo; };
 
 Script(
   FunctionDeclaration(async,function,VariableDefinition,ParamList,Block),
-  ClassDeclaration(class,VariableDefinition,ClassBody(MethodDeclaration(async,PropertyDefinition,ParamList,Block))),
+  ClassDeclaration(entity,VariableDefinition,ClassBody(MethodDeclaration(async,PropertyDefinition,ParamList,Block))),
   ExpressionStatement(ArrowFunction(async,ParamList(VariableDefinition),Arrow,Block(ReturnStatement(return,VariableName)))))
 
 # If statements
@@ -167,13 +167,13 @@ Script(LabeledStatement(Label,ForStatement(for,ForSpec,Block(
 
 # Classes
 
-class Foo {
+entity Foo {
   static one(a) { return a; };
   two(b) { return b; }
   finally() {}
 }
 
-class Foo extends require('another-class') {
+entity Foo extends require('another-entity') {
   constructor() { super(); }
   bar() { super.a(); }
   prop;
@@ -184,11 +184,11 @@ class Foo extends require('another-class') {
 ==>
 
 Script(
-  ClassDeclaration(class,VariableDefinition,ClassBody(
+  ClassDeclaration(entity,VariableDefinition,ClassBody(
     MethodDeclaration(static,PropertyDefinition,ParamList(VariableDefinition),Block(ReturnStatement(return,VariableName))),
     MethodDeclaration(PropertyDefinition,ParamList(VariableDefinition),Block(ReturnStatement(return,VariableName))),
     MethodDeclaration(PropertyDefinition,ParamList,Block))),
-  ClassDeclaration(class,VariableDefinition,extends,CallExpression(VariableName,ArgList(String)),ClassBody(
+  ClassDeclaration(entity,VariableDefinition,extends,CallExpression(VariableName,ArgList(String)),ClassBody(
     MethodDeclaration(PropertyDefinition,ParamList,Block(ExpressionStatement(CallExpression(super,ArgList)))),
     MethodDeclaration(PropertyDefinition,ParamList,Block(ExpressionStatement(CallExpression(MemberExpression(super,PropertyName),ArgList)))),
     PropertyDeclaration(PropertyDefinition),
@@ -197,7 +197,7 @@ Script(
 
 # Private properties
 
-class Foo {
+entity Foo {
   #bar() { this.#a() + this?.#prop == #prop in this; }
   #prop;
   #etc = 20;
@@ -205,7 +205,7 @@ class Foo {
 
 ==>
 
-Script(ClassDeclaration(class,VariableDefinition,ClassBody(
+Script(ClassDeclaration(entity,VariableDefinition,ClassBody(
   MethodDeclaration(PrivatePropertyDefinition,ParamList,Block(
     ExpressionStatement(BinaryExpression(
        BinaryExpression(
@@ -219,14 +219,14 @@ Script(ClassDeclaration(class,VariableDefinition,ClassBody(
 
 # Computed properties
 
-class Foo {
+entity Foo {
   [x] = 44;
   [Symbol.iterator]() {}
 }
 
 ==>
 
-Script(ClassDeclaration(class,VariableDefinition,ClassBody(
+Script(ClassDeclaration(entity,VariableDefinition,ClassBody(
   PropertyDeclaration(VariableName,Equals,Number),
   MethodDeclaration(MemberExpression(VariableName,PropertyName),ParamList,Block))))
 
@@ -360,7 +360,7 @@ Script(
 
 function* foo() { yield 1 }
 
-class B {
+entity B {
   *method() {}
 }
 
@@ -371,7 +371,7 @@ class B {
 Script(
   FunctionDeclaration(function,Star,VariableDefinition,ParamList,Block(
     ExpressionStatement(YieldExpression(yield,Number)))),
-  ClassDeclaration(class,VariableDefinition,ClassBody(
+  ClassDeclaration(entity,VariableDefinition,ClassBody(
     MethodDeclaration(Star,PropertyDefinition,ParamList,Block))),
   ExpressionStatement(ParenthesizedExpression(ObjectExpression(Property(Star,PropertyDefinition,ParamList,Block)))))
 

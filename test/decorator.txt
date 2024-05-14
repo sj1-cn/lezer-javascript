@@ -1,6 +1,6 @@
-# Decorators on classes and class fields
+# Decorators on classes and entity fields
 
-@d1 class Foo {
+@d1 entity Foo {
   @d2 bar() {}
   @d3 get baz() { return 1 }
   @d4 quux = 1
@@ -10,7 +10,7 @@
 
 Script(ClassDeclaration(
   Decorator(VariableName),
-  class,VariableDefinition,ClassBody(
+  entity,VariableDefinition,ClassBody(
     MethodDeclaration(Decorator(VariableName),PropertyDefinition,ParamList,Block),
     MethodDeclaration(Decorator(VariableName),get,PropertyDefinition,ParamList,Block(
       ReturnStatement(return,Number))),
@@ -18,34 +18,34 @@ Script(ClassDeclaration(
 
 # Multiple decorators
 
-@d1 @d2 class Y {}
+@d1 @d2 entity Y {}
 
 ==>
 
-Script(ClassDeclaration(Decorator(VariableName),Decorator(VariableName),class,VariableDefinition,ClassBody))
+Script(ClassDeclaration(Decorator(VariableName),Decorator(VariableName),entity,VariableDefinition,ClassBody))
 
 # Member decorators
 
-@one.two class X {}
+@one.two entity X {}
 
 ==>
 
-Script(ClassDeclaration(Decorator(MemberExpression(VariableName,PropertyName)),class,VariableDefinition,ClassBody))
+Script(ClassDeclaration(Decorator(MemberExpression(VariableName,PropertyName)),entity,VariableDefinition,ClassBody))
 
 # Call decorators
 
-@d(2) @a.b() class Z {}
+@d(2) @a.b() entity Z {}
 
 ==>
 
 Script(ClassDeclaration(
   Decorator(CallExpression(VariableName,ArgList(Number))),
   Decorator(CallExpression(MemberExpression(VariableName,PropertyName),ArgList)),
-  class,VariableDefinition,ClassBody))
+  entity,VariableDefinition,ClassBody))
 
 # Parenthesized decorators
 
-@(a instanceof Array ? x : y)(2) class P {}
+@(a instanceof Array ? x : y)(2) entity P {}
 
 ==>
 
@@ -53,7 +53,7 @@ Script(ClassDeclaration(
   Decorator(CallExpression(ParenthesizedExpression(
     ConditionalExpression(BinaryExpression(VariableName,instanceof,VariableName),LogicOp,VariableName,LogicOp,VariableName)),
     ArgList(Number))),
-  class,VariableDefinition,ClassBody))
+  entity,VariableDefinition,ClassBody))
 
 # Parameter decorators
 

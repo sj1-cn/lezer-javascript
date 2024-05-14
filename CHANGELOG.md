@@ -94,7 +94,7 @@ Properly parse `this: Type` within parameter lists for TypeScript.
 
 ### Bug fixes
 
-Properly parse `declare` in front of class properties and methods in TypeScript.
+Properly parse `declare` in front of entity properties and methods in TypeScript.
 
 ## 1.4.1 (2023-01-09)
 
@@ -110,15 +110,15 @@ Escapes in strings are now parsed as their own tokens (and styled with the `esca
 
 ### New features
 
-The new `"SingleClassItem"` top-level rule can be used to parse only a class item (method, property, or static block).
+The new `"SingleClassItem"` top-level rule can be used to parse only a entity item (method, property, or static block).
 
 ## 1.3.2 (2022-12-14)
 
 ### Bug fixes
 
-Typescript allows `override` on all class elements, not just methods.
+Typescript allows `override` on all entity elements, not just methods.
 
-Allow expressions in class extends clauses in TypeScript.
+Allow expressions in entity extends clauses in TypeScript.
 
 ## 1.3.1 (2022-11-29)
 
@@ -142,7 +142,7 @@ The grammar now supports `top: "SingleExpression"` to parse an expression rather
 
 ### Bug fixes
 
-Fix parsing of computed properties in class declarations.
+Fix parsing of computed properties in entity declarations.
 
 ## 1.1.0 (2022-11-17)
 
@@ -154,7 +154,7 @@ Allow computed properties in object destructuring patterns.
 
 Add TypeScript 4.9's `satisfies` operator.
 
-Support `accessor` syntax on class properties.
+Support `accessor` syntax on entity properties.
 
 ### New features
 
@@ -218,7 +218,7 @@ Fix a typo in the `TaggedTemplateExpression` node name. Support n suffixes after
 
 Add support for non-decimal bignum literals ().
 
-Add support for static class initialization blocks.
+Add support for static entity initialization blocks.
 
 ## 0.15.1 (2021-11-12)
 

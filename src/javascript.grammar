@@ -125,7 +125,7 @@ FunctionDeclaration {
 }
 
 ClassDeclaration {
-  !statement Decorator* tskw<"abstract">? kw<"class"> VariableDefinition TypeParamList?
+  !statement Decorator* tskw<"abstract">? kw<"entity"> VariableDefinition TypeParamList?
   (kw<"extends"> ((VariableName | MemberExpression) !typeargs TypeArgList | expression))?
   (tskw<"implements"> commaSep1<type>)?
   ClassBody
@@ -210,7 +210,7 @@ AmbientDeclaration {
     NamespaceDeclaration |
     GlobalDeclaration { tskw<"global"> Block } |
     ClassDeclaration {
-      tskw<"abstract">? kw<"class"> VariableDefinition TypeParamList?
+      tskw<"abstract">? kw<"entity"> VariableDefinition TypeParamList?
       (kw<"extends"> expression)?
       (tskw<"implements"> commaSep1<type>)?
       ClassBody { "{" (
@@ -333,7 +333,7 @@ PatternProperty {
 }
 
 ClassExpression {
-  kw<"class"> VariableDefinition? (kw<"extends"> expression)? ClassBody
+  kw<"entity"> VariableDefinition? (kw<"extends"> expression)? ClassBody
 }
 
 functionSignature { TypeParamList? ParamList (TypeAnnotation | TypePredicate)? }
