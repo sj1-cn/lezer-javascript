@@ -1,6 +1,6 @@
 {
   "name": "@sj1/lezer-javascript",
-  "version": "1.4.17",
+  "version": "1.4.20",
   "description": "lezer-based nsl grammar",
   "main": "dist/index.cjs",
   "type": "module",

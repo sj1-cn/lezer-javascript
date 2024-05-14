@@ -111,42 +111,53 @@ ForOfSpec { forXSpec<ckw<"of">> }
 
 declaration {
   FunctionDeclaration |
+  TypeDeclaration   |
+  DictDeclaration   |
+  StructDeclaration |
   EntityDeclaration |
   TransactionDeclaration |
   RelationshipDeclaration |
   VariableDeclaration |
   InterfaceDeclaration |
-  TypeDeclaration |
-  DictDeclaration |
-  NamespaceDeclaration |
-  AmbientDeclaration
+  NamespaceDeclaration
 }
 
 FunctionDeclaration {
   async? !statement kw<"function"> Star? VariableDefinition? functionSignature (Block | semi)
 }
 
+StructDeclaration {
+  !statement Decorator* tskw<"abstract">? kw<"struct"> VariableDefinition
+  (kw<"extends"> ((VariableName | MemberExpression) !typeargs TypeArgList | expression))?
+  EntityBody
+}
 
 EntityDeclaration {
-  !statement Decorator* tskw<"abstract">? kw<"entity"> VariableDefinition TypeParamList?
+  !statement Decorator* tskw<"abstract">? kw<"entity"> VariableDefinition
   (kw<"extends"> ((VariableName | MemberExpression) !typeargs TypeArgList | expression))?
-  (tskw<"implements"> commaSep1<type>)?
   EntityBody
 }
 
 TransactionDeclaration {
-  !statement Decorator* tskw<"abstract">? kw<"transaction"> VariableDefinition TypeParamList?
+  !statement Decorator* tskw<"abstract">? kw<"transaction"> VariableDefinition
   (kw<"extends"> ((VariableName | MemberExpression) !typeargs TypeArgList | expression))?
-  (tskw<"implements"> commaSep1<type>)?
   EntityBody
 }
 
 RelationshipDeclaration {
-  !statement Decorator* tskw<"abstract">? kw<"relationship"> VariableDefinition TypeParamList?
+  !statement Decorator* tskw<"abstract">? kw<"relationship"> VariableDefinition
   (kw<"extends"> ((VariableName | MemberExpression) !typeargs TypeArgList | expression))?
-  (tskw<"implements"> commaSep1<type>)?
   EntityBody
 }
+
+TypeDeclaration {
+  kw<"type"> TypeDefinition kw<"extends"> type semi
+}
+
+DictDeclaration {
+  kw<"dict"> TypeDefinition DictBody { "{" commaSep<PropertyName ("=" expressionNoComma)?> "}" }
+}
+
 
 entityItem { MethodDeclaration | PropertyDeclaration | StaticBlock | ";" }
 
@@ -206,40 +217,8 @@ InterfaceDeclaration {
   tskw<"interface"> TypeDefinition TypeParamList? (kw<"extends"> type)? ObjectType
 }
 
-TypeDeclaration {
-  tskw<"type"> TypeDefinition kw<"extends"> type semi
-}
-
-DictDeclaration {
-  kw<"const">? tskw<"dict"> TypeDefinition DictBody { "{" commaSep<PropertyName ("=" expressionNoComma)?> "}" }
-}
-
 NamespaceDeclaration {
   (tskw<"namespace"> | tskw<"module">) VariableDefinition ("." PropertyDefinition)* Block
-}
-
-AmbientDeclaration {
-  tskw<"declare"> (
-    VariableDeclaration |
-    TypeDeclaration |
-    DictDeclaration |
-    InterfaceDeclaration |
-    NamespaceDeclaration |
-    GlobalDeclaration { tskw<"global"> Block } |
-    EntityDeclaration {
-      tskw<"abstract">? kw<"entity"> VariableDefinition TypeParamList?
-      (kw<"extends"> expression)?
-      (tskw<"implements"> commaSep1<type>)?
-      EntityBody { "{" (
-        MethodDeclaration |
-        PropertyDeclaration |
-        IndexSignature semi
-      )* "}" }
-    } |
-    AmbientFunctionDeclaration {
-      async? kw<"function"> Star? VariableDefinition? TypeParamList? ParamList (TypeAnnotation | TypePredicate) semi
-    }
-  )
 }
 
 decoratorExpression {
