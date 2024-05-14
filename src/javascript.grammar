@@ -116,6 +116,7 @@ declaration {
   RelationshipDeclaration |
   VariableDeclaration |
   InterfaceDeclaration |
+  TypeDeclaration |
   DictDeclaration |
   NamespaceDeclaration |
   AmbientDeclaration
@@ -205,6 +206,10 @@ InterfaceDeclaration {
   tskw<"interface"> TypeDefinition TypeParamList? (kw<"extends"> type)? ObjectType
 }
 
+TypeDeclaration {
+  tskw<"type"> TypeDefinition kw<"extends"> type semi
+}
+
 DictDeclaration {
   kw<"const">? tskw<"dict"> TypeDefinition DictBody { "{" commaSep<PropertyName ("=" expressionNoComma)?> "}" }
 }
@@ -216,6 +221,7 @@ NamespaceDeclaration {
 AmbientDeclaration {
   tskw<"declare"> (
     VariableDeclaration |
+    TypeDeclaration |
     DictDeclaration |
     InterfaceDeclaration |
     NamespaceDeclaration |
