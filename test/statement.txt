@@ -34,7 +34,7 @@ async (a) => { return foo; };
 
 Script(
   FunctionDeclaration(async,function,VariableDefinition,ParamList,Block),
-  ClassDeclaration(entity,VariableDefinition,ClassBody(MethodDeclaration(async,PropertyDefinition,ParamList,Block))),
+  EntityDeclaration(entity,VariableDefinition,EntityBody(MethodDeclaration(async,PropertyDefinition,ParamList,Block))),
   ExpressionStatement(ArrowFunction(async,ParamList(VariableDefinition),Arrow,Block(ReturnStatement(return,VariableName)))))
 
 # If statements
@@ -165,7 +165,7 @@ theLoop: for (;;) {
 Script(LabeledStatement(Label,ForStatement(for,ForSpec,Block(
   IfStatement(if,ParenthesizedExpression(VariableName),Block(BreakStatement(break,Label)))))))
 
-# Classes
+# Entityes
 
 entity Foo {
   static one(a) { return a; };
@@ -184,11 +184,11 @@ entity Foo extends require('another-entity') {
 ==>
 
 Script(
-  ClassDeclaration(entity,VariableDefinition,ClassBody(
+  EntityDeclaration(entity,VariableDefinition,EntityBody(
     MethodDeclaration(static,PropertyDefinition,ParamList(VariableDefinition),Block(ReturnStatement(return,VariableName))),
     MethodDeclaration(PropertyDefinition,ParamList(VariableDefinition),Block(ReturnStatement(return,VariableName))),
     MethodDeclaration(PropertyDefinition,ParamList,Block))),
-  ClassDeclaration(entity,VariableDefinition,extends,CallExpression(VariableName,ArgList(String)),ClassBody(
+  EntityDeclaration(entity,VariableDefinition,extends,CallExpression(VariableName,ArgList(String)),EntityBody(
     MethodDeclaration(PropertyDefinition,ParamList,Block(ExpressionStatement(CallExpression(super,ArgList)))),
     MethodDeclaration(PropertyDefinition,ParamList,Block(ExpressionStatement(CallExpression(MemberExpression(super,PropertyName),ArgList)))),
     PropertyDeclaration(PropertyDefinition),
@@ -205,7 +205,7 @@ entity Foo {
 
 ==>
 
-Script(ClassDeclaration(entity,VariableDefinition,ClassBody(
+Script(EntityDeclaration(entity,VariableDefinition,EntityBody(
   MethodDeclaration(PrivatePropertyDefinition,ParamList,Block(
     ExpressionStatement(BinaryExpression(
        BinaryExpression(
@@ -226,7 +226,7 @@ entity Foo {
 
 ==>
 
-Script(ClassDeclaration(entity,VariableDefinition,ClassBody(
+Script(EntityDeclaration(entity,VariableDefinition,EntityBody(
   PropertyDeclaration(VariableName,Equals,Number),
   MethodDeclaration(MemberExpression(VariableName,PropertyName),ParamList,Block))))
 
@@ -371,7 +371,7 @@ entity B {
 Script(
   FunctionDeclaration(function,Star,VariableDefinition,ParamList,Block(
     ExpressionStatement(YieldExpression(yield,Number)))),
-  ClassDeclaration(entity,VariableDefinition,ClassBody(
+  EntityDeclaration(entity,VariableDefinition,EntityBody(
     MethodDeclaration(Star,PropertyDefinition,ParamList,Block))),
   ExpressionStatement(ParenthesizedExpression(ObjectExpression(Property(Star,PropertyDefinition,ParamList,Block)))))
 

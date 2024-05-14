@@ -133,7 +133,7 @@ Script(ExpressionStatement(JSXElement(
   JSXText,
   JSXCloseTag(JSXStartCloseTag, JSXBuiltin(JSXIdentifier), JSXEndTag))))
 
-# Class definition {"dialect": "ts"}
+# Entity definition {"dialect": "ts"}
 
 entity Foo<T> extends Bar<T> implements Stuff {
   a: number
@@ -144,11 +144,11 @@ entity Foo<T> extends Bar<T> implements Stuff {
 
 ==>
 
-Script(ClassDeclaration(
+Script(EntityDeclaration(
   entity, VariableDefinition, TypeParamList(TypeDefinition),
   extends, VariableName, TypeArgList(TypeName),
   implements TypeName,
-  ClassBody(
+  EntityBody(
     PropertyDeclaration(PropertyDefinition, TypeAnnotation(TypeName)),
     PropertyDeclaration(Privacy, readonly, PropertyDefinition, TypeAnnotation(TypeName), Equals, String),
     MethodDeclaration(PropertyDefinition, ParamList(
@@ -185,9 +185,9 @@ entity Foo extends A.B<Param> {}
 
 ==>
 
-Script(ClassDeclaration(entity, VariableDefinition,
+Script(EntityDeclaration(entity, VariableDefinition,
   extends, MemberExpression(VariableName, PropertyName), TypeArgList(TypeName),
-  ClassBody))
+  EntityBody))
 
 # Object type {"dialect": "ts"}
 
@@ -242,18 +242,18 @@ entity A {
 
 ==>
 
-Script(ClassDeclaration(entity,VariableDefinition,ClassBody(
+Script(EntityDeclaration(entity,VariableDefinition,EntityBody(
   PropertyDeclaration(override,accessor,PropertyDefinition),
   PropertyDeclaration(static,override,PropertyDefinition,Equals,Number),
   PropertyDeclaration(override,PropertyDefinition,Equals,Number))))
 
-# Class extending expression {"dialect": "ts"}
+# Entity extending expression {"dialect": "ts"}
 
 entity X extends entity {} {}
 
 ==>
 
-Script(ClassDeclaration(entity,VariableDefinition,extends,ClassExpression(entity,ClassBody),ClassBody))
+Script(EntityDeclaration(entity,VariableDefinition,extends,EntityExpression(entity,EntityBody),EntityBody))
 
 # Declare syntax {"dialect": "ts"}
 
@@ -284,11 +284,11 @@ Script(
     VariableDeclaration(let,VariableDefinition,TypeAnnotation(TypeName))))),
   AmbientDeclaration(declare,AmbientFunctionDeclaration(function,VariableDefinition,
     ParamList(VariableDefinition,TypeAnnotation(TypeName)),TypeAnnotation(VoidType(void)))),
-  AmbientDeclaration(declare,ClassDeclaration(entity,VariableDefinition,ClassBody(
+  AmbientDeclaration(declare,EntityDeclaration(entity,VariableDefinition,EntityBody(
     MethodDeclaration(PropertyDefinition,ParamList(VariableDefinition,TypeAnnotation(TypeName))),
     PropertyDeclaration(PropertyDefinition,TypeAnnotation(TypeName)),
     MethodDeclaration(PropertyDefinition,ParamList,TypeAnnotation(VoidType(void)))))),
-  ClassDeclaration(entity,VariableDefinition,ClassBody(
+  EntityDeclaration(entity,VariableDefinition,EntityBody(
     MethodDeclaration(declare,PropertyDefinition,ParamList),
     PropertyDeclaration(declare,PropertyDefinition,TypeAnnotation(TypeName)))))
 

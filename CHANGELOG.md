@@ -110,7 +110,7 @@ Escapes in strings are now parsed as their own tokens (and styled with the `esca
 
 ### New features
 
-The new `"SingleClassItem"` top-level rule can be used to parse only a entity item (method, property, or static block).
+The new `"SingleEntityItem"` top-level rule can be used to parse only a entity item (method, property, or static block).
 
 ## 1.3.2 (2022-12-14)
 

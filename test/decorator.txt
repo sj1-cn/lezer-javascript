@@ -8,9 +8,9 @@
 
 ==>
 
-Script(ClassDeclaration(
+Script(EntityDeclaration(
   Decorator(VariableName),
-  entity,VariableDefinition,ClassBody(
+  entity,VariableDefinition,EntityBody(
     MethodDeclaration(Decorator(VariableName),PropertyDefinition,ParamList,Block),
     MethodDeclaration(Decorator(VariableName),get,PropertyDefinition,ParamList,Block(
       ReturnStatement(return,Number))),
@@ -22,7 +22,7 @@ Script(ClassDeclaration(
 
 ==>
 
-Script(ClassDeclaration(Decorator(VariableName),Decorator(VariableName),entity,VariableDefinition,ClassBody))
+Script(EntityDeclaration(Decorator(VariableName),Decorator(VariableName),entity,VariableDefinition,EntityBody))
 
 # Member decorators
 
@@ -30,7 +30,7 @@ Script(ClassDeclaration(Decorator(VariableName),Decorator(VariableName),entity,V
 
 ==>
 
-Script(ClassDeclaration(Decorator(MemberExpression(VariableName,PropertyName)),entity,VariableDefinition,ClassBody))
+Script(EntityDeclaration(Decorator(MemberExpression(VariableName,PropertyName)),entity,VariableDefinition,EntityBody))
 
 # Call decorators
 
@@ -38,10 +38,10 @@ Script(ClassDeclaration(Decorator(MemberExpression(VariableName,PropertyName)),e
 
 ==>
 
-Script(ClassDeclaration(
+Script(EntityDeclaration(
   Decorator(CallExpression(VariableName,ArgList(Number))),
   Decorator(CallExpression(MemberExpression(VariableName,PropertyName),ArgList)),
-  entity,VariableDefinition,ClassBody))
+  entity,VariableDefinition,EntityBody))
 
 # Parenthesized decorators
 
@@ -49,11 +49,11 @@ Script(ClassDeclaration(
 
 ==>
 
-Script(ClassDeclaration(
+Script(EntityDeclaration(
   Decorator(CallExpression(ParenthesizedExpression(
     ConditionalExpression(BinaryExpression(VariableName,instanceof,VariableName),LogicOp,VariableName,LogicOp,VariableName)),
     ArgList(Number))),
-  entity,VariableDefinition,ClassBody))
+  entity,VariableDefinition,EntityBody))
 
 # Parameter decorators
 

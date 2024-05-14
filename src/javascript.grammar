@@ -43,7 +43,7 @@
 
 @top SingleExpression { expression }
 
-@top SingleClassItem { classItem }
+@top SingleEntityItem { classItem }
 
 statement[@isGroup=Statement] {
   ExportDeclaration |
@@ -73,7 +73,7 @@ statement[@isGroup=Statement] {
 
 ExportDeclaration {
   kw<"export"> Star (ckw<"as"> (VariableName | String))? ckw<"from"> String semi |
-  kw<"export"> kw<"default"> (FunctionDeclaration | ClassDeclaration | expression semi) |
+  kw<"export"> kw<"default"> (FunctionDeclaration | EntityDeclaration | expression semi) |
   kw<"export"> tskw<"type">? declaration |
   kw<"export"> tskw<"type">? ExportGroup (ckw<"from"> String)? semi |
   kw<"export"> "=" expression semi
@@ -111,7 +111,7 @@ ForOfSpec { forXSpec<ckw<"of">> }
 
 declaration {
   FunctionDeclaration |
-  ClassDeclaration |
+  EntityDeclaration |
   VariableDeclaration |
   TypeAliasDeclaration |
   InterfaceDeclaration |
@@ -124,16 +124,16 @@ FunctionDeclaration {
   async? !statement kw<"function"> Star? VariableDefinition? functionSignature (Block | semi)
 }
 
-ClassDeclaration {
+EntityDeclaration {
   !statement Decorator* tskw<"abstract">? kw<"entity"> VariableDefinition TypeParamList?
   (kw<"extends"> ((VariableName | MemberExpression) !typeargs TypeArgList | expression))?
   (tskw<"implements"> commaSep1<type>)?
-  ClassBody
+  EntityBody
 }
 
 classItem { MethodDeclaration | PropertyDeclaration | StaticBlock | ";" }
 
-ClassBody { "{" classItem* "}" }
+EntityBody { "{" classItem* "}" }
 
 privacy {
   @extend[@name=Privacy,@dialect=ts]<word, "public" | "private" | "protected">
@@ -154,7 +154,7 @@ propModifier {
 
 classPropName { propName | PrivatePropertyDefinition }
 
-MethodDeclaration[group=ClassItem] {
+MethodDeclaration[group=EntityItem] {
   propModifier*
   pkwMod<"async">?
   (pkwMod<"get"> | pkwMod<"set"> | Star)?
@@ -163,11 +163,11 @@ MethodDeclaration[group=ClassItem] {
   (Block | semi)
 }
 
-StaticBlock[group=ClassItem] {
+StaticBlock[group=EntityItem] {
   pkwMod<"static"> Block
 }
 
-PropertyDeclaration[group=ClassItem] {
+PropertyDeclaration[group=EntityItem] {
   propModifier*
   (tsPkwMod<"readonly"> | pkwMod<"accessor">)?
   classPropName
@@ -209,11 +209,11 @@ AmbientDeclaration {
     InterfaceDeclaration |
     NamespaceDeclaration |
     GlobalDeclaration { tskw<"global"> Block } |
-    ClassDeclaration {
+    EntityDeclaration {
       tskw<"abstract">? kw<"entity"> VariableDefinition TypeParamList?
       (kw<"extends"> expression)?
       (tskw<"implements"> commaSep1<type>)?
-      ClassBody { "{" (
+      EntityBody { "{" (
         MethodDeclaration |
         PropertyDeclaration |
         IndexSignature semi
@@ -292,7 +292,7 @@ expressionNoComma {
   YieldExpression |
   AwaitExpression |
   ParenthesizedExpression |
-  ClassExpression |
+  EntityExpression |
   FunctionExpression |
   ArrowFunction |
   MemberExpression |
@@ -332,8 +332,8 @@ PatternProperty {
    ("[" expression "]" ~destructure ":" pattern)) ("=" expressionNoComma)?
 }
 
-ClassExpression {
-  kw<"entity"> VariableDefinition? (kw<"extends"> expression)? ClassBody
+EntityExpression {
+  kw<"entity"> VariableDefinition? (kw<"extends"> expression)? EntityBody
 }
 
 functionSignature { TypeParamList? ParamList (TypeAnnotation | TypePredicate)? }
